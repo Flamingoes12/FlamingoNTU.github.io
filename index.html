@@ -44,6 +44,9 @@
 
 <!-- Replace 'YOUR_WEBAPP_URL' with the actual URL of your Google Apps Script web app -->
 <script>
+  // Variable to store the reference to the currently displayed flamingos
+  let currentFlamingos = [];
+
   // Function to fetch data from Google Sheets and visualize flamingos
   function fetchDataAndVisualize() {
     fetch('https://script.google.com/macros/s/AKfycbykLHQodXZ55FF3h3d53MmNctG0UHe-S471BqE63ociDtD58kWGYTcfYms5Zb-Q3KZR/exec')
@@ -55,27 +58,32 @@
   // Function to visualize flamingo elements
   function visualizeFlamingos(data) {
     // Clear existing flamingos
-    document.getElementById('visualization').innerHTML = '';
-    
+    clearFlamingos();
+
     // Loop through data and create flamingo elements
     data.forEach(function(row) {
       var flamingo = document.createElement('div');
       flamingo.textContent = '🦩'; // You can use any flamingo emoji or text representation
       flamingo.classList.add('flamingo');
       document.getElementById('visualization').appendChild(flamingo);
+      currentFlamingos.push(flamingo);
 
       // Remove the flamingo element after 5 seconds
       setTimeout(function() {
         flamingo.remove();
+        currentFlamingos.splice(currentFlamingos.indexOf(flamingo), 1);
       }, 5000);
     });
   }
 
+  // Function to clear existing flamingos
+  function clearFlamingos() {
+    currentFlamingos.forEach(flamingo => flamingo.remove());
+    currentFlamingos = [];
+  }
+
   // Call fetchDataAndVisualize initially on page load
   window.onload = fetchDataAndVisualize;
-
-  // Refresh data every 5 seconds (adjust as needed)
-  setInterval(fetchDataAndVisualize, 5000); // 5 seconds
 </script>
 
 </body>
