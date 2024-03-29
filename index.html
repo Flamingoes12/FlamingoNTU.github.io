@@ -53,6 +53,9 @@
     const range = 'RFID_Data!A:C'; // Replace with the range containing your RFID data
     const apiKey = 'AIzaSyAHFqjGafVM0sWJ_zWbMHic4Ysp4rcy3Lc'; // Replace with your Google Sheets API Key
 
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
+
+    
     fetch(url)
       .then(response => response.json())
       .then(data => {
