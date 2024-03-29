@@ -80,8 +80,8 @@ function visualizeFlamingos(data) {
     // Clear existing flamingos
     clearFlamingos();
 
-    // Loop through data and create flamingo elements
-    data.forEach(function(row) {
+    // Loop through data and create flamingo elements with delay
+    data.forEach(function(row, index) {
         var dateParts = row[0].split('/'); // Split date by '/'
         var timeParts = row[1].split(':'); // Split time by ':'
         var year = parseInt(dateParts[2]);
@@ -91,17 +91,21 @@ function visualizeFlamingos(data) {
         var minutes = parseInt(timeParts[1]);
         var seconds = parseInt(timeParts[2]);
         var timestamp = new Date(year, month, day, hours, minutes, seconds).getTime(); // Generate timestamp
-        var flamingo = document.createElement('div');
-        flamingo.textContent = '🦩'; // You can use any flamingo emoji or text representation
-        flamingo.classList.add('flamingo');
-        document.getElementById('visualization').appendChild(flamingo);
-        currentFlamingos.push(flamingo);
-
-        // Remove the flamingo element after the animation duration
+        
+        // Create flamingo element with delay
         setTimeout(function() {
-            flamingo.remove();
-            currentFlamingos.splice(currentFlamingos.indexOf(flamingo), 1);
-        }, 5000);
+            var flamingo = document.createElement('div');
+            flamingo.textContent = '🦩'; // You can use any flamingo emoji or text representation
+            flamingo.classList.add('flamingo');
+            document.getElementById('visualization').appendChild(flamingo);
+            currentFlamingos.push(flamingo);
+            
+            // Remove the flamingo element after the animation duration
+            setTimeout(function() {
+                flamingo.remove();
+                currentFlamingos.splice(currentFlamingos.indexOf(flamingo), 1);
+            }, 5000);
+        }, index * 6000); // Adjust delay between each flamingo (6000ms = 6s)
     });
 }
 
