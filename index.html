@@ -9,7 +9,7 @@
   body {
     margin: 0;
     padding: 0;
-    background-image: url('background.jpg');
+    background-image: url('background.jpg'); /* Adjust filename here */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -28,17 +28,6 @@
   .flamingo {
     font-size: 100px; /* Adjust size as needed */
     transform: scaleX(-1);
-    animation: walkRight 5s forwards, fadeOut 5s 15s forwards;
-  }
-
-  @keyframes walkRight {
-    0% { margin-left: 100px; }
-    100% { margin-left: calc(100vw - 200px); }
-  }
-
-  @keyframes fadeOut {
-    0% { opacity: 1; }
-    100% { opacity: 0; }
   }
 </style>
 </head>
@@ -50,28 +39,29 @@
 <script>
   // Function to fetch data from Google Sheets and visualize flamingos
   function fetchDataAndVisualize() {
-    google.script.run.withSuccessHandler(visualizeFlamingos).fetchRFIDData();
+    google.script.run.withSuccessHandler(visualizeFlamingos).fetchData();
   }
 
-  // Function to visualize flamingos based on retrieved data
+  // Function to visualize flamingo elements
   function visualizeFlamingos(data) {
-    var visualizationDiv = document.getElementById('visualization');
-    visualizationDiv.innerHTML = ''; // Clear previous flamingos
-
-    // Loop through the retrieved data and create a flamingo for each entry
-    data.forEach(function(entry) {
+    // Clear existing flamingos
+    document.getElementById('visualization').innerHTML = '';
+    
+    // Loop through data and create flamingo elements
+    data.forEach(function(row) {
       var flamingo = document.createElement('div');
-      flamingo.textContent = '🦩';
+      flamingo.textContent = '🦩'; // You can use any flamingo emoji or text representation
       flamingo.classList.add('flamingo');
-      visualizationDiv.appendChild(flamingo);
+      document.getElementById('visualization').appendChild(flamingo);
     });
   }
 
-  // Fetch data and visualize flamingos when the page loads
+  // Call fetchDataAndVisualize on page load
   window.onload = fetchDataAndVisualize;
 </script>
 
-<!-- Replace 'YOUR_WEBAPP_URL' with the URL of your Google Apps Script web app -->
+<!-- Replace 'YOUR_WEBAPP_URL' with the actual URL of your Google Apps Script web app -->
 <script src="https://script.google.com/macros/s/AKfycbyuQZFFQL1jIDUvyjZpKEghL0NAXrqcxnGDYRWiGcLs0DANOVvLjKBmZ5z5QtYVExT5/exec"></script>
+
 </body>
 </html>
