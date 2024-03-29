@@ -22,8 +22,8 @@
   /* Container for the flamingo */
   #visualization {
     position: absolute;
-    top: 200px; /* Adjust top position as needed */
-    left: 100px; /* Adjust left position as needed */
+    margin-left: 100px; /* Adjust top position as needed */
+    margin-top: 100px; /* Adjust left position as needed */
   }
 
   .flamingo {
@@ -72,7 +72,11 @@
           console.log('Old data:', oldData);
         } else {
           // Check for new data and visualize flamingos
-          visualizeFlamingos(getNewData(data.values));
+          const newData = getNewData(data.values);
+          visualizeFlamingos(newData);
+          // Add new data to old data
+          oldData.push(...newData);
+          console.log('Old data after update:', oldData);
         }
       })
       .catch(error => console.error('Error fetching data:', error))
