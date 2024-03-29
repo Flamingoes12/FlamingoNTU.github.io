@@ -49,7 +49,9 @@
 
   // Function to fetch data from Google Sheets and visualize flamingos
   function fetchDataAndVisualize() {
-    fetch('https://script.google.com/macros/s/AKfycbyeQkoj-RpHPwbU9a9J4qbE18hkum7pNH-QsHOC5A0yNtrLPuiykrhmJpLrnKgJvxed/exec')
+    // Replace 'YOUR_API_KEY_HERE' with your actual API key
+    const apiKey = 'AIzaSyAHFqjGafVM0sWJ_zWbMHic4Ysp4rcy3Lc';
+    fetch(`https://script.google.com/macros/s/AKfycbw-dv7h8HVsCYQklq0Fy4HjC-r6cI0dafLnlq6NTkdGl-zgW1cKNL0B8gJJUxMYe557/exec?apiKey=${apiKey}`)
       .then(response => response.json())
       .then(data => visualizeFlamingos(data))
       .catch(error => console.error('Error fetching data:', error));
