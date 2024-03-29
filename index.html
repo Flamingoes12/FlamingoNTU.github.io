@@ -72,23 +72,37 @@
       .catch(error => console.error('Error fetching data:', error));
   }
 
-  // Function to visualize flamingo elements
-  function visualizeFlamingos(data) {
+// Function to visualize flamingo elements based on timestamp
+function visualizeFlamingos(data) {
+    // Clear existing flamingos
+    clearFlamingos();
+
     // Loop through data and create flamingo elements
     data.forEach(function(row) {
-      var flamingo = document.createElement('div');
-      flamingo.textContent = '🦩'; // You can use any flamingo emoji or text representation
-      flamingo.classList.add('flamingo');
-      document.getElementById('visualization').appendChild(flamingo);
-      currentFlamingos.push(flamingo);
+        var timestamp = new Date(row[1]).getTime(); // Extract timestamp from the second column (adjust as per your Google Sheets structure)
+        var flamingo = document.createElement('div');
+        flamingo.textContent = '🦩'; // You can use any flamingo emoji or text representation
+        flamingo.classList.add('flamingo');
+        document.getElementById('visualization').appendChild(flamingo);
+        currentFlamingos.push(flamingo);
 
-      // Remove the flamingo element after 5 seconds
-      setTimeout(function() {
-        flamingo.remove();
-        currentFlamingos.splice(currentFlamingos.indexOf(flamingo), 1);
-      }, 5000);
+        // Calculate the delay based on the difference between the current time and the timestamp
+        var delay = calculateDelay(timestamp);
+        
+        // Remove the flamingo element after the calculated delay
+        setTimeout(function() {
+            flamingo.remove();
+            currentFlamingos.splice(currentFlamingos.indexOf(flamingo), 1);
+        }, delay);
     });
-  }
+}
+
+// Function to calculate delay based on the difference between current time and timestamp
+function calculateDelay(timestamp) {
+    var currentTimestamp = Date.now(); // Get the current timestamp in milliseconds
+    var difference = currentTimestamp - timestamp; // Calculate the difference
+    return Math.max(0, 5000 - difference); // Ensure the delay is at least 0 and at most 5000 milliseconds
+}
 
   // Function to clear existing flamingos
   function clearFlamingos() {
