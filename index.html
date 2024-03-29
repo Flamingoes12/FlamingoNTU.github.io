@@ -21,8 +21,9 @@
 
   /* Container for the flamingo */
   #visualization {
-    margin-left: 100px; /* Adjust the margin as needed */
-    margin-top: 650px;
+    position: absolute;
+    margin-top: 100px; /* Adjust top position as needed */
+    margin-left: 650px; /* Adjust left position as needed */
   }
 
   .flamingo {
@@ -39,13 +40,12 @@
 </head>
 <body>
 <div id="visualization">
-  <!-- Flamingo element will be added here dynamically -->
+  <!-- Flamingo elements will be added here dynamically -->
 </div>
 
 <script>
   // Variable to store the reference to the currently displayed flamingo
-  let currentFlamingo = null;
-  let oldData = [];
+  let currentFlamingos = [];
 
   // Function to fetch data from Google Sheets and visualize flamingos
   function fetchDataAndVisualize() {
@@ -63,39 +63,35 @@
         const newData = getNewData(data.values);
         console.log('New data:', newData);
         if (newData.length > 0) {
-          // Visualize flamingo for new data
-          visualizeFlamingo();
-          // Update old data
-          oldData = oldData.concat(newData);
+          // Visualize flamingos for each new cell
+          visualizeFlamingos(newData);
         }
       })
       .catch(error => console.error('Error fetching data:', error));
   }
 
-  // Function to visualize flamingo for new data
-  function visualizeFlamingo() {
-    // If there's already a flamingo, remove it
-    if (currentFlamingo) {
-      currentFlamingo.remove();
-    }
-
-    // Create a new flamingo element
-    var flamingo = document.createElement('div');
-    flamingo.textContent = '🦩'; // You can use any flamingo emoji or text representation
-    flamingo.classList.add('flamingo');
-    document.getElementById('visualization').appendChild(flamingo);
-    currentFlamingo = flamingo;
+  // Function to visualize flamingos for each new cell
+  function visualizeFlamingos(newData) {
+    // Loop through new data and create flamingo elements
+    newData.forEach(() => {
+      const flamingo = document.createElement('div');
+      flamingo.textContent = '🦩'; // You can use any flamingo emoji or text representation
+      flamingo.classList.add('flamingo');
+      document.getElementById('visualization').appendChild(flamingo);
+      currentFlamingos.push(flamingo);
+    });
   }
 
   // Function to get new data since the last update
   function getNewData(data) {
-    return data.filter(row => !oldData.includes(row.join('')));
+    const oldFlamingos = currentFlamingos.map(flamingo => flamingo.textContent);
+    return data.filter(row => !oldFlamingos.includes(row.join('')));
   }
 
   // Call fetchDataAndVisualize initially on page load
   fetchDataAndVisualize();
 
-  // Fetch data and visualize flamingo every 5 seconds
+  // Fetch data and visualize flamingos every 5 seconds
   setInterval(fetchDataAndVisualize, 5000);
 </script>
 </body>
