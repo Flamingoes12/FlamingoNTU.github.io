@@ -28,17 +28,16 @@
   .flamingo {
     font-size: 100px; /* Adjust size as needed */
     transform: scaleX(-1);
-    animation: walkRight 5s linear forwards; /* Walk to the right for 5 seconds */
+    animation: walkRight 5s forwards, fadeOut 5s 15s forwards;
   }
 
   @keyframes walkRight {
     0% { margin-left: 100px; }
-    100% { margin-left: 800px; }
+    100% { margin-left: calc(100vw - 200px); }
   }
 
-  @keyframes stopAndDisappear {
+  @keyframes fadeOut {
     0% { opacity: 1; }
-    90% { opacity: 1; }
     100% { opacity: 0; }
   }
 </style>
@@ -49,44 +48,30 @@
 </div>
 
 <script>
-  // Function to create and visualize a flamingo element
-  function visualizeFlamingo() {
-    // Create a new flamingo element
-    var flamingo = document.createElement('div');
-    flamingo.textContent = '🦩'; // You can use any flamingo emoji or text representation
-
-    // Add the 'flamingo' class to the flamingo element
-    flamingo.classList.add('flamingo');
-
-    // Append the flamingo element to the 'visualization' div
-    document.getElementById('visualization').appendChild(flamingo);
-
-    // After 15 seconds, make the flamingo disappear
-    setTimeout(function() {
-      flamingo.style.animation = 'stopAndDisappear 1s forwards';
-    }, 15000);
-  }
-
   // Function to fetch data from Google Sheets and visualize flamingos
   function fetchDataAndVisualize() {
-    // Replace 'YOUR_WEBAPP_URL' with the actual URL of your Google Apps Script web app
-    var url = 'https://script.google.com/macros/s/AKfycbyuQZFFQL1jIDUvyjZpKEghL0NAXrqcxnGDYRWiGcLs0DANOVvLjKBmZ5z5QtYVExT5/exec'; 
-
-    // Call the Google Apps Script web app
-    fetch(url)
-      .then(response => response.text())
-      .then(data => {
-        console.log(data);
-        if (data === 'New RFID tag added') {
-          visualizeFlamingo();
-        }
-      })
-      .catch(error => console.error('Error:', error));
+    google.script.run.withSuccessHandler(visualizeFlamingos).fetchRFIDData();
   }
 
-  // Call the fetchDataAndVisualize function to start the process
-  fetchDataAndVisualize();
+  // Function to visualize flamingos based on retrieved data
+  function visualizeFlamingos(data) {
+    var visualizationDiv = document.getElementById('visualization');
+    visualizationDiv.innerHTML = ''; // Clear previous flamingos
+
+    // Loop through the retrieved data and create a flamingo for each entry
+    data.forEach(function(entry) {
+      var flamingo = document.createElement('div');
+      flamingo.textContent = '🦩';
+      flamingo.classList.add('flamingo');
+      visualizationDiv.appendChild(flamingo);
+    });
+  }
+
+  // Fetch data and visualize flamingos when the page loads
+  window.onload = fetchDataAndVisualize;
 </script>
 
+<!-- Replace 'YOUR_WEBAPP_URL' with the URL of your Google Apps Script web app -->
+<script src="https://script.google.com/macros/s/AKfycbyuQZFFQL1jIDUvyjZpKEghL0NAXrqcxnGDYRWiGcLs0DANOVvLjKBmZ5z5QtYVExT5/exec"></script>
 </body>
 </html>
