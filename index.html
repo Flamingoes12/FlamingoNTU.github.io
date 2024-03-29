@@ -22,8 +22,8 @@
   /* Container for the flamingo */
   #visualization {
     position: absolute;
-    margin-left: 100px; /* Adjust top position as needed */
-    margin-top: 650px; /* Adjust left position as needed */
+    top: 200px; /* Adjust top position as needed */
+    left: 100px; /* Adjust left position as needed */
   }
 
   .flamingo {
@@ -44,7 +44,7 @@
 </div>
 
 <script>
-  // Variable to store the reference to the currently displayed flamingo
+  // Variable to store the reference to the currently displayed flamingos
   let currentFlamingos = [];
 
   // Function to fetch data from Google Sheets and visualize flamingos
@@ -63,6 +63,8 @@
         const newData = getNewData(data.values);
         console.log('New data:', newData);
         if (newData.length > 0) {
+          // Clear existing flamingos before visualizing new ones
+          clearFlamingos();
           // Visualize flamingos for each new cell
           visualizeFlamingos(newData);
         }
@@ -80,6 +82,12 @@
       document.getElementById('visualization').appendChild(flamingo);
       currentFlamingos.push(flamingo);
     });
+  }
+
+  // Function to clear existing flamingos
+  function clearFlamingos() {
+    currentFlamingos.forEach(flamingo => flamingo.remove());
+    currentFlamingos = [];
   }
 
   // Function to get new data since the last update
