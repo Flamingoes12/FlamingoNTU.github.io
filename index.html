@@ -33,22 +33,16 @@
 </head>
 <body>
 <div id="visualization">
-  <!-- Flamingo elements will be added here dynamically -->
+  <!-- Flamingo element will be added here dynamically -->
 </div>
 
+<!-- Replace 'YOUR_WEBAPP_URL' with the actual URL of your Google Apps Script web app -->
 <script>
-  // Function to fetch data from Google Apps Script web app and visualize flamingos
+  // Function to fetch data from Google Sheets and visualize flamingos
   function fetchDataAndVisualize() {
-    fetch('https://script.google.com/macros/s/AKfycbxhgQMd3bSBSyVNmeRswnUGtWru603Uf7ffktwdVJjXuGpIhPPAcmdo3hxxbrAh0XJQ/exec')
-      .then(response => response.text())
-      .then(data => {
-        const [message, rowData] = data.split('|');
-        if (message === 'New RFID tag added') {
-          visualizeFlamingos(JSON.parse(rowData));
-        } else {
-          console.error('Error:', message);
-        }
-      })
+    fetch('https://script.google.com/macros/s/AKfycbwTEAYiCgOtvwGprpDo41V3fiYJeedrbZ9pdRHnC7RXehx5A0H5H2fJR2hNL0ln9tM/exec')
+      .then(response => response.json())
+      .then(data => visualizeFlamingos(data))
       .catch(error => console.error('Error fetching data:', error));
   }
 
@@ -66,8 +60,11 @@
     });
   }
 
-  // Call fetchDataAndVisualize on page load
+  // Call fetchDataAndVisualize initially on page load
   window.onload = fetchDataAndVisualize;
+
+  // Refresh data every 60 seconds (adjust as needed)
+  setInterval(fetchDataAndVisualize, 60000); // 60 seconds
 </script>
 
 </body>
