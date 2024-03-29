@@ -90,6 +90,11 @@
       flamingo.classList.add('flamingo');
       document.getElementById('visualization').appendChild(flamingo);
       currentFlamingos.push(flamingo);
+      // Remove the flamingo after 5 seconds
+      setTimeout(() => {
+        flamingo.remove();
+        currentFlamingos.splice(currentFlamingos.indexOf(flamingo), 1);
+      }, 5000);
     });
   }
 
