@@ -48,23 +48,29 @@
   let latestTimestamp = null;
 
   // Function to fetch data from Google Sheets and visualize flamingos
-function fetchDataAndVisualize() {
-  const spreadsheetId = '1XF4dtJcKt-GDM_w2SerLZryxAHzwd9oNk_nBUcMlkP8'; // Replace with your Google Sheets Spreadsheet ID
-  const range = 'RFID_Data!C:C'; // Replace with the range containing your RFID data
-  const apiKey = 'AIzaSyAHFqjGafVM0sWJ_zWbMHic4Ysp4rcy3Lc'; // Replace with your Google Sheets API Key
+  function fetchDataAndVisualize() {
+     const spreadsheetId = '1XF4dtJcKt-GDM_w2SerLZryxAHzwd9oNk_nBUcMlkP8'; // Replace with your Google Sheets Spreadsheet ID
+      const range = 'RFID_Data!A:C'; // Replace with the range containing your RFID data
+      const apiKey = 'AIzaSyAHFqjGafVM0sWJ_zWbMHic4Ysp4rcy3Lc'; // Replace with your Google Sheets API Key
 
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
 
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      // Clear existing flamingos before visualizing new ones
-      clearFlamingos();
-      // Visualize new flamingos
-      visualizeFlamingos(data);
-    })
-    .catch(error => console.error('Error fetching data:', error));
-}
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        // Check if there is new data since the last update
+        const newData = getNewData(data.values);
+        if (newData.length > 0) {
+          // Clear existing flamingos before visualizing new ones
+          clearFlamingos();
+          // Visualize new flamingos
+          visualizeFlamingos(newData);
+          // Update latest timestamp
+          latestTimestamp = new Date().getTime();
+        }
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }
 
   // Function to visualize flamingo elements
   function visualizeFlamingos(data) {
@@ -88,6 +94,19 @@ function fetchDataAndVisualize() {
   function clearFlamingos() {
     currentFlamingos.forEach(flamingo => flamingo.remove());
     currentFlamingos = [];
+  }
+
+  // Function to get new data since the last update
+  function getNewData(data) {
+    if (!latestTimestamp) {
+      // If latestTimestamp is null, return all data
+      return data;
+    }
+    // Filter out data that is newer than latestTimestamp
+    return data.filter(row => {
+      const updateTime = new Date(row[2]).getTime(); // Assuming the timestamp is in the third column
+      return updateTime > latestTimestamp;
+    });
   }
 
   // Call fetchDataAndVisualize initially on page load
