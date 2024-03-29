@@ -53,7 +53,7 @@
   // Function to fetch data from Google Sheets and visualize flamingos
   function fetchDataAndVisualize() {
       const spreadsheetId = '1XF4dtJcKt-GDM_w2SerLZryxAHzwd9oNk_nBUcMlkP8'; // Replace with your Google Sheets Spreadsheet ID
-      const range = 'RFID_Data!C:C'; // Replace with the range containing your RFID data
+      const range = 'RFID_Data!A:C'; // Replace with the range containing your RFID data
       const apiKey = 'AIzaSyAHFqjGafVM0sWJ_zWbMHic4Ysp4rcy3Lc'; // Replace with your Google Sheets API Key
 
       const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
