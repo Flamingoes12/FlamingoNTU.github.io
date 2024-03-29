@@ -97,22 +97,12 @@ function visualizeFlamingos(data) {
         document.getElementById('visualization').appendChild(flamingo);
         currentFlamingos.push(flamingo);
 
-        // Calculate the delay based on the difference between the current time and the timestamp
-        var delay = calculateDelay(timestamp);
-        
-        // Remove the flamingo element after the calculated delay
+        // Remove the flamingo element after the animation duration
         setTimeout(function() {
             flamingo.remove();
             currentFlamingos.splice(currentFlamingos.indexOf(flamingo), 1);
-        }, delay);
+        }, 5000);
     });
-}
-
-// Function to calculate delay based on the difference between current time and timestamp
-function calculateDelay(timestamp) {
-    var currentTimestamp = Date.now(); // Get the current timestamp in milliseconds
-    var difference = currentTimestamp - timestamp; // Calculate the difference
-    return Math.max(0, 5000 - difference); // Ensure the delay is at least 0 and at most 5000 milliseconds
 }
 
   // Function to clear existing flamingos
