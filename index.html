@@ -33,7 +33,7 @@
 </head>
 <body>
 <div id="visualization">
-  <!-- Flamingo element will be added here dynamically -->
+  <!-- Flamingo elements will be added here dynamically -->
 </div>
 
 <script>
@@ -50,14 +50,20 @@
     document.getElementById('visualization').appendChild(flamingo);
   }
 
-  // Function to be called when new data is added
-  function newDataAdded() {
-    // Call the visualizeFlamingo function to create and display a flamingo element
-    visualizeFlamingo();
+  // Function to fetch data from Google Sheets and visualize flamingos
+  function fetchDataAndVisualize() {
+    google.script.run.withSuccessHandler(function(data) {
+      // Check if data is received successfully
+      console.log('Fetched data:', data);
+      if (data === 'New RFID tag added') {
+        // If new data is added, visualize a flamingo
+        visualizeFlamingo();
+      }
+    }).getRFIDData(); // Call Google Apps Script function to fetch data
   }
 
-  // Initially call the visualizeFlamingo function to create and display a flamingo element
-  visualizeFlamingo();
+  // Call fetchDataAndVisualize function to start the process
+  fetchDataAndVisualize();
 </script>
 
 </body>
