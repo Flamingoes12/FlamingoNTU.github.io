@@ -29,13 +29,6 @@
 
   .flamingo {
     font-size: 100px; /* Adjust size as needed */
-    transform: scaleX(-1); /* Flip the flamingo horizontally */
-    animation: walkRight 4s forwards; /* Animation duration: 4 seconds */
-  }
-
-  @keyframes walkRight {
-    0% { transform: translateX(0) scaleX(-1); } /* Start position facing right */
-    100% { transform: translateX(calc(100vw - 200px)) scaleX(-1); } /* End position (stop walking) */
   }
 </style>
 </head>
@@ -54,7 +47,7 @@
   // Function to fetch data from Google Sheets and visualize flamingos
   function fetchDataAndVisualize() {
       const spreadsheetId = '1XF4dtJcKt-GDM_w2SerLZryxAHzwd9oNk_nBUcMlkP8'; // Replace with your Google Sheets Spreadsheet ID
-      const range = 'RFID_Data!A:C'; // Replace with the range containing your RFID data
+      const range = 'RFID_Data!C:C'; // Replace with the range containing your RFID data
       const apiKey = 'AIzaSyAHFqjGafVM0sWJ_zWbMHic4Ysp4rcy3Lc'; // Replace with your Google Sheets API Key
 
       const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
@@ -94,12 +87,9 @@
       currentFlamingos.push(flamingo);
       // Stop walking and remove the flamingo after 4 seconds
       setTimeout(() => {
-        flamingo.style.animation = 'none'; // Stop the animation
-        setTimeout(() => {
-          flamingo.remove();
-          currentFlamingos.splice(currentFlamingos.indexOf(flamingo), 1);
-        }, 1000); // Wait for 1 second after stopping
-      }, 4000); // Stop walking after 4 seconds
+        flamingo.remove();
+        currentFlamingos.splice(currentFlamingos.indexOf(flamingo), 1);
+      }, 4000); // Remove after 4 seconds
     });
   }
 
