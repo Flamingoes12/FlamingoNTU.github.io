@@ -49,12 +49,12 @@
 
   // Function to fetch data from Google Sheets and visualize flamingos
   function fetchDataAndVisualize() {
-    const spreadsheetId = '1XF4dtJcKt-GDM_w2SerLZryxAHzwd9oNk_nBUcMlkP8'; // Replace with your Google Sheets Spreadsheet ID
-    const range = 'RFID_Data!A:C'; // Replace with the range containing your RFID data
-    const apiKey = 'AIzaSyAHFqjGafVM0sWJ_zWbMHic4Ysp4rcy3Lc'; // Replace with your Google Sheets API Key
+     const spreadsheetId = '1XF4dtJcKt-GDM_w2SerLZryxAHzwd9oNk_nBUcMlkP8'; // Replace with your Google Sheets Spreadsheet ID
+      const range = 'RFID_Data!C:C'; // Replace with the range containing your RFID data
+      const apiKey = 'AIzaSyAHFqjGafVM0sWJ_zWbMHic4Ysp4rcy3Lc'; // Replace with your Google Sheets API Key
 
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
-
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
+    console.log('Fetching data from Google Sheets...');
     
     fetch(url)
       .then(response => response.json())
@@ -84,9 +84,9 @@ function visualizeFlamingos(data) {
     data.forEach(function(row) {
         var dateParts = row[0].split('/'); // Split date by '/'
         var timeParts = row[1].split(' '); // Split time by space
-        var year = parseInt(dateParts[2]);
         var month = parseInt(dateParts[0]) - 1; // Months are zero-based in JavaScript
         var day = parseInt(dateParts[1]);
+        var year = parseInt(dateParts[2]);
         var timeComponents = timeParts[0].split(':'); // Split time by ':'
         var hours = parseInt(timeComponents[0]);
         var minutes = parseInt(timeComponents[1]);
@@ -98,6 +98,7 @@ function visualizeFlamingos(data) {
             hours = 0; // Convert 12 AM to 24-hour format
         }
         var timestamp = new Date(year, month, day, hours, minutes, seconds).getTime(); // Generate timestamp
+        console.log('Timestamp:', timestamp);
         var flamingo = document.createElement('div');
         flamingo.textContent = '🦩'; // You can use any flamingo emoji or text representation
         flamingo.classList.add('flamingo');
@@ -106,6 +107,7 @@ function visualizeFlamingos(data) {
 
         // Calculate the delay based on the difference between the current time and the timestamp
         var delay = calculateDelay(timestamp);
+        console.log('Delay:', delay);
         
         // Remove the flamingo element after the calculated delay
         setTimeout(function() {
@@ -149,4 +151,3 @@ function calculateDelay(timestamp) {
 </script>
 </body>
 </html>
-
