@@ -47,44 +47,41 @@
   // Variable to store the reference to the currently displayed flamingos
   let currentFlamingos = [];
 
+  // Variable to store the old data
+  let oldData = [];
+
   // Function to fetch data from Google Sheets and visualize flamingos
   function fetchDataAndVisualize() {
-    const spreadsheetId = '1XF4dtJcKt-GDM_w2SerLZryxAHzwd9oNk_nBUcMlkP8'; // Replace with your Google Sheets Spreadsheet ID
-    const range = 'RFID_Data!A:C'; // Replace with the range containing your RFID data
-    const apiKey = 'AIzaSyAHFqjGafVM0sWJ_zWbMHic4Ysp4rcy3Lc'; // Replace with your Google Sheets API Key
+      const spreadsheetId = '1XF4dtJcKt-GDM_w2SerLZryxAHzwd9oNk_nBUcMlkP8'; // Replace with your Google Sheets Spreadsheet ID
+      const range = 'RFID_Data!C:C'; // Replace with the range containing your RFID data
+      const apiKey = 'AIzaSyAHFqjGafVM0sWJ_zWbMHic4Ysp4rcy3Lc'; // Replace with your Google Sheets API Key
 
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
 
     fetch(url)
       .then(response => response.json())
       .then(data => {
         console.log('Fetched data:', data);
-        // Check if there is new data since the last update
-        const newData = getNewData(data.values);
-        console.log('New data:', newData);
-        if (newData.length > 0) {
-          // Clear existing flamingos before visualizing new ones
-          clearFlamingos();
-          // Visualize flamingos for each new cell
-          visualizeFlamingos(newData);
-          // Schedule the next fetch after all new flamingos have been visualized
-          setTimeout(fetchDataAndVisualize, 5000); // Fetch data every 5 seconds
+        if (oldData.length === 0) {
+          // Store initial data as old data
+          oldData = data.values || [];
+          console.log('Old data:', oldData);
         } else {
-          // If no new data, schedule the next fetch immediately
-          setTimeout(fetchDataAndVisualize, 1000); // Retry after 1 second
+          // Check for new data and visualize flamingos
+          visualizeFlamingos(getNewData(data.values));
         }
       })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-        // If there's an error, retry after 1 second
-        setTimeout(fetchDataAndVisualize, 1000); // Retry after 1 second
+      .catch(error => console.error('Error fetching data:', error))
+      .finally(() => {
+        // Schedule the next fetch after 5 seconds
+        setTimeout(fetchDataAndVisualize, 5000); // Fetch data every 5 seconds
       });
   }
 
   // Function to visualize flamingos for each new cell
   function visualizeFlamingos(newData) {
     // Loop through new data and create flamingo elements
-    newData.forEach(() => {
+    newData.forEach(row => {
       const flamingo = document.createElement('div');
       flamingo.textContent = '🦩'; // You can use any flamingo emoji or text representation
       flamingo.classList.add('flamingo');
@@ -98,16 +95,10 @@
     });
   }
 
-  // Function to clear existing flamingos
-  function clearFlamingos() {
-    currentFlamingos.forEach(flamingo => flamingo.remove());
-    currentFlamingos = [];
-  }
-
   // Function to get new data since the last update
-  function getNewData(data) {
-    const oldFlamingos = currentFlamingos.map(flamingo => flamingo.textContent);
-    return data.filter(row => !oldFlamingos.includes(row.join('')));
+  function getNewData(newData) {
+    // Filter out rows that are not in the old data
+    return newData.filter(row => !oldData.some(oldRow => oldRow.join('') === row.join('')));
   }
 
   // Call fetchDataAndVisualize initially on page load
