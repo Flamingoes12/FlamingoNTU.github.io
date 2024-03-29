@@ -28,6 +28,12 @@
   .flamingo {
     font-size: 100px; /* Adjust size as needed */
     transform: scaleX(-1);
+    animation: walkRight 5s forwards; /* Animation duration: 5 seconds */
+  }
+
+  @keyframes walkRight {
+    0% { transform: translateX(0); } /* Start position */
+    100% { transform: translateX(100vw); } /* End position (move to the right edge of the viewport) */
   }
 </style>
 </head>
@@ -57,14 +63,19 @@
       flamingo.textContent = '🦩'; // You can use any flamingo emoji or text representation
       flamingo.classList.add('flamingo');
       document.getElementById('visualization').appendChild(flamingo);
+
+      // Remove the flamingo element after 5 seconds
+      setTimeout(function() {
+        flamingo.remove();
+      }, 5000);
     });
   }
 
   // Call fetchDataAndVisualize initially on page load
   window.onload = fetchDataAndVisualize;
 
-  // Refresh data every 05 seconds (adjust as needed)
-  setInterval(fetchDataAndVisualize, 5000); // 05 seconds
+  // Refresh data every 5 seconds (adjust as needed)
+  setInterval(fetchDataAndVisualize, 5000); // 5 seconds
 </script>
 
 </body>
