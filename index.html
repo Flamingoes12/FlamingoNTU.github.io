@@ -29,6 +29,13 @@
 
   .flamingo {
     font-size: 100px; /* Adjust size as needed */
+    transform: scaleX(-1);
+    animation: walkRight 4s linear; /* Flamingo walk animation */
+  }
+
+  @keyframes walkRight {
+    0% { transform: translateX(0); } /* Start position */
+    100% { transform: translateX(100vw); } /* End position */
   }
 </style>
 </head>
@@ -85,7 +92,7 @@
       flamingo.classList.add('flamingo');
       document.getElementById('visualization').appendChild(flamingo);
       currentFlamingos.push(flamingo);
-      // Stop walking and remove the flamingo after 4 seconds
+      // Remove the flamingo after 4 seconds
       setTimeout(() => {
         flamingo.remove();
         currentFlamingos.splice(currentFlamingos.indexOf(flamingo), 1);
