@@ -53,13 +53,13 @@
     const range = 'RFID_Data!A:C'; // Replace with the range containing your RFID data
     const apiKey = 'AIzaSyAHFqjGafVM0sWJ_zWbMHic4Ysp4rcy3Lc'; // Replace with your Google Sheets API Key
 
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
-
     fetch(url)
       .then(response => response.json())
       .then(data => {
+        console.log('Fetched data:', data);
         // Check if there is new data since the last update
         const newData = getNewData(data.values);
+        console.log('New data:', newData);
         if (newData.length > 0) {
           // Clear existing flamingos before visualizing new ones
           clearFlamingos();
@@ -146,3 +146,4 @@ function calculateDelay(timestamp) {
 </script>
 </body>
 </html>
+
