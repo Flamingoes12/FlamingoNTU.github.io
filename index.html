@@ -22,8 +22,8 @@
   /* Container for the flamingo */
   #visualization {
     position: absolute;
-    margin-left: 100px; /* Adjust top position as needed */
-    margin-top: 100px; /* Adjust left position as needed */
+    top: 650px; /* Adjust top position as needed */
+    left: 100px; /* Adjust left position as needed */
   }
 
   .flamingo {
@@ -32,12 +32,11 @@
     top: 0; /* Adjust top position as needed */
     left: 0; /* Adjust left position as needed */
     transform: scaleX(-1);
-    animation: walkRight 10s forwards; /* Animation duration: 10 seconds */
+    animation: walkRight 4s forwards; /* Animation duration: 4 seconds */
   }
 
   @keyframes walkRight {
     0% { left: 0; } /* Start position */
-    50% { left: calc(100vw - 100px); } /* Walk halfway */
     100% { left: calc(100vw - 100px); } /* End position (stop walking) */
   }
 </style>
@@ -96,14 +95,14 @@
       flamingo.style.top = `${index * 120}px`; // Adjust top position for each flamingo
       document.getElementById('visualization').appendChild(flamingo);
       currentFlamingos.push(flamingo);
-      // Stop walking and remove the flamingo after 5 seconds
+      // Stop walking and remove the flamingo after 4 seconds
       setTimeout(() => {
         flamingo.style.animation = 'none'; // Stop the animation
         setTimeout(() => {
           flamingo.remove();
           currentFlamingos.splice(currentFlamingos.indexOf(flamingo), 1);
-        }, 5000); // Wait for 5 seconds after stopping
-      }, 5000); // Stop walking after 5 seconds
+        }, 1000); // Wait for 1 second after stopping
+      }, 4000); // Stop walking after 4 seconds
     });
   }
 
