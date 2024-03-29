@@ -33,11 +33,11 @@
 </head>
 <body>
 <div id="visualization">
-  <!-- Flamingo elements will be added here dynamically -->
+  <!-- Flamingo element will be added here dynamically -->
 </div>
 
 <script>
-  // Function to create and visualize a flamingo element
+  // Function to visualize a flamingo element
   function visualizeFlamingo() {
     // Create a new flamingo element
     var flamingo = document.createElement('div');
@@ -52,6 +52,9 @@
 
   // Function to fetch data from Google Sheets and visualize flamingos
   function fetchDataAndVisualize() {
+    // Replace 'YOUR_WEB_APP_URL' with the URL of your deployed Google Apps Script web app
+    var url = 'https://script.google.com/macros/s/AKfycbzIna3FiK6O1iTIbdgJjbwQy86QusUeH5QwYwhWLj9bJSmEP2YNBMDoXjblPOjMH59n/exec';
+    
     google.script.run.withSuccessHandler(function(data) {
       // Check if data is received successfully
       console.log('Fetched data:', data);
@@ -59,6 +62,8 @@
         // If new data is added, visualize a flamingo
         visualizeFlamingo();
       }
+    }).withFailureHandler(function(error) {
+      console.error('Error:', error);
     }).getRFIDData(); // Call Google Apps Script function to fetch data
   }
 
