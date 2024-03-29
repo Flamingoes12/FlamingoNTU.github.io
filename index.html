@@ -22,22 +22,19 @@
   /* Container for the flamingo */
   #visualization {
     position: absolute;
-    top: 650px; /* Adjust top position as needed */
-    left: 100px; /* Adjust left position as needed */
+    margin-top: 650px; /* Adjust top position as needed */
+    margin-left: 100px; /* Adjust left position as needed */
+    display: flex; /* Ensure flamingos are displayed side by side */
   }
 
   .flamingo {
     font-size: 100px; /* Adjust size as needed */
-    position: absolute;
-    top: 0; /* Adjust top position as needed */
-    left: 0; /* Adjust left position as needed */
-    transform: scaleX(-1);
     animation: walkRight 4s forwards; /* Animation duration: 4 seconds */
   }
 
   @keyframes walkRight {
-    0% { left: 0; } /* Start position */
-    100% { left: calc(100vw - 100px); } /* End position (stop walking) */
+    0% { transform: translateX(0); } /* Start position */
+    100% { transform: translateX(calc(100vw - 200px)); } /* End position (stop walking) */
   }
 </style>
 </head>
@@ -88,11 +85,10 @@
   // Function to visualize flamingos for each new cell
   function visualizeFlamingos(newData) {
     // Loop through new data and create flamingo elements
-    newData.forEach((row, index) => {
+    newData.forEach(() => {
       const flamingo = document.createElement('div');
       flamingo.textContent = '🦩'; // You can use any flamingo emoji or text representation
       flamingo.classList.add('flamingo');
-      flamingo.style.top = `${index * 120}px`; // Adjust top position for each flamingo
       document.getElementById('visualization').appendChild(flamingo);
       currentFlamingos.push(flamingo);
       // Stop walking and remove the flamingo after 4 seconds
