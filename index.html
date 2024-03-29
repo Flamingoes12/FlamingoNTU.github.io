@@ -9,7 +9,7 @@
   body {
     margin: 0;
     padding: 0;
-    background-image: url('Background.jpg'); /* Reference the background image */
+    background-image: url('background.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -50,7 +50,13 @@
     document.getElementById('visualization').appendChild(flamingo);
   }
 
-  // Call the visualizeFlamingo function to create and display a flamingo element
+  // Function to be called when new data is added
+  function newDataAdded() {
+    // Call the visualizeFlamingo function to create and display a flamingo element
+    visualizeFlamingo();
+  }
+
+  // Initially call the visualizeFlamingo function to create and display a flamingo element
   visualizeFlamingo();
 </script>
 
