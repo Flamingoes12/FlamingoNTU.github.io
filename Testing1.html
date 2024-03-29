@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flamingo Visualization</title>
+<style>
+  /* CSS styles for flamingo element */
+  .flamingo {
+    font-size: 100px; /* Adjust size as needed */
+    transform: scaleX(-1); /* Make the flamingo face right */
+    position: absolute; /* Position the flamingo absolutely */
+    left: 50px; /* Adjust left position as needed */
+    top: 100px; /* Adjust top position as needed */
+    z-index: 999; /* Ensure the flamingo is above other elements */
+  }
+</style>
+</head>
+<body>
+
+<!-- Flamingo element will be added here dynamically -->
+<div id="visualization"></div>
+
+<script>
+// Function to create and visualize a flamingo element
+function visualizeFlamingo() {
+  // Create a new flamingo element
+  var flamingo = document.createElement('div');
+  flamingo.textContent = '🦩'; // You can use any flamingo emoji or text representation
+  flamingo.classList.add('flamingo'); // Add the 'flamingo' class to the flamingo element
+  document.body.appendChild(flamingo); // Append the flamingo element to the body
+}
+
+// Handle HTTP POST request to trigger flamingo creation
+function handleRequest() {
+  // Call visualizeFlamingo to create and display a flamingo element
+  visualizeFlamingo();
+}
+
+// Call handleRequest function to handle the request when the page loads
+handleRequest();
+</script>
+
+</body>
+</html>
