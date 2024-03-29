@@ -5,40 +5,53 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Flamingo Visualization</title>
 <style>
-  /* CSS styles for flamingo element */
+  /* Set background image to cover entire webpage */
+  body {
+    margin: 0;
+    padding: 0;
+    background-image: url('background.jpg'); /* Reference the background image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: flex-start; /* Align content to the left side */
+    align-items: center;
+    height: 100vh;
+  }
+
+  /* Container for the flamingo */
+  #visualization {
+    margin-left: 100px; /* Adjust the margin as needed */
+    margin-top: 650px;
+  }
+
   .flamingo {
     font-size: 100px; /* Adjust size as needed */
-    transform: scaleX(-1); /* Make the flamingo face right */
-    position: absolute; /* Position the flamingo absolutely */
-    left: 50px; /* Adjust left position as needed */
-    top: 100px; /* Adjust top position as needed */
-    z-index: 999; /* Ensure the flamingo is above other elements */
+    transform: scaleX(-1);
   }
 </style>
 </head>
 <body>
-
-<!-- Flamingo element will be added here dynamically -->
-<div id="visualization"></div>
+<div id="visualization">
+  <!-- Flamingo element will be added here dynamically -->
+</div>
 
 <script>
-// Function to create and visualize a flamingo element
-function visualizeFlamingo() {
-  // Create a new flamingo element
-  var flamingo = document.createElement('div');
-  flamingo.textContent = '🦩'; // You can use any flamingo emoji or text representation
-  flamingo.classList.add('flamingo'); // Add the 'flamingo' class to the flamingo element
-  document.body.appendChild(flamingo); // Append the flamingo element to the body
-}
+  // Function to create and visualize a flamingo element
+  function visualizeFlamingo() {
+    // Create a new flamingo element
+    var flamingo = document.createElement('div');
+    flamingo.textContent = '🦩'; // You can use any flamingo emoji or text representation
 
-// Handle HTTP POST request to trigger flamingo creation
-function handleRequest() {
-  // Call visualizeFlamingo to create and display a flamingo element
+    // Add the 'flamingo' class to the flamingo element
+    flamingo.classList.add('flamingo');
+
+    // Append the flamingo element to the 'visualization' div
+    document.getElementById('visualization').appendChild(flamingo);
+  }
+
+  // Call the visualizeFlamingo function to create and display a flamingo element
   visualizeFlamingo();
-}
-
-// Call handleRequest function to handle the request when the page loads
-handleRequest();
 </script>
 
 </body>
