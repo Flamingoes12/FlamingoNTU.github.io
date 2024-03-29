@@ -22,19 +22,20 @@
   /* Container for the flamingo */
   #visualization {
     position: absolute;
-    margin-top: 650px; /* Adjust top position as needed */
-    margin-left: 100px; /* Adjust left position as needed */
+    top: 650px; /* Adjust top position as needed */
+    left: 100px; /* Adjust left position as needed */
     display: flex; /* Ensure flamingos are displayed side by side */
   }
 
   .flamingo {
     font-size: 100px; /* Adjust size as needed */
+    transform: scaleX(-1); /* Flip the flamingo horizontally */
     animation: walkRight 4s forwards; /* Animation duration: 4 seconds */
   }
 
   @keyframes walkRight {
-    0% { transform: translateX(0); } /* Start position */
-    100% { transform: translateX(calc(100vw - 200px)); } /* End position (stop walking) */
+    0% { transform: translateX(0) scaleX(-1); } /* Start position facing right */
+    100% { transform: translateX(calc(100vw - 200px)) scaleX(-1); } /* End position (stop walking) */
   }
 </style>
 </head>
