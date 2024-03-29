@@ -9,7 +9,7 @@
   body {
     margin: 0;
     padding: 0;
-    background-image: url('background.jpg');
+    background-image: url('Background.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -28,6 +28,18 @@
   .flamingo {
     font-size: 100px; /* Adjust size as needed */
     transform: scaleX(-1);
+    animation: walkRight 5s linear forwards; /* Walk to the right for 5 seconds */
+  }
+
+  @keyframes walkRight {
+    0% { margin-left: 100px; }
+    100% { margin-left: 800px; }
+  }
+
+  @keyframes stopAndDisappear {
+    0% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
   }
 </style>
 </head>
@@ -37,7 +49,7 @@
 </div>
 
 <script>
-  // Function to visualize a flamingo element
+  // Function to create and visualize a flamingo element
   function visualizeFlamingo() {
     // Create a new flamingo element
     var flamingo = document.createElement('div');
@@ -48,26 +60,31 @@
 
     // Append the flamingo element to the 'visualization' div
     document.getElementById('visualization').appendChild(flamingo);
+
+    // After 15 seconds, make the flamingo disappear
+    setTimeout(function() {
+      flamingo.style.animation = 'stopAndDisappear 1s forwards';
+    }, 15000);
   }
 
   // Function to fetch data from Google Sheets and visualize flamingos
   function fetchDataAndVisualize() {
-    // Replace 'YOUR_WEB_APP_URL' with the URL of your deployed Google Apps Script web app
-    var url = 'https://script.google.com/macros/s/AKfycbzIna3FiK6O1iTIbdgJjbwQy86QusUeH5QwYwhWLj9bJSmEP2YNBMDoXjblPOjMH59n/exec';
-    
-    google.script.run.withSuccessHandler(function(data) {
-      // Check if data is received successfully
-      console.log('Fetched data:', data);
-      if (data === 'New RFID tag added') {
-        // If new data is added, visualize a flamingo
-        visualizeFlamingo();
-      }
-    }).withFailureHandler(function(error) {
-      console.error('Error:', error);
-    }).getRFIDData(); // Call Google Apps Script function to fetch data
+    // Replace 'YOUR_WEBAPP_URL' with the actual URL of your Google Apps Script web app
+    var url = 'https://script.google.com/macros/s/AKfycbyuQZFFQL1jIDUvyjZpKEghL0NAXrqcxnGDYRWiGcLs0DANOVvLjKBmZ5z5QtYVExT5/exec'; 
+
+    // Call the Google Apps Script web app
+    fetch(url)
+      .then(response => response.text())
+      .then(data => {
+        console.log(data);
+        if (data === 'New RFID tag added') {
+          visualizeFlamingo();
+        }
+      })
+      .catch(error => console.error('Error:', error));
   }
 
-  // Call fetchDataAndVisualize function to start the process
+  // Call the fetchDataAndVisualize function to start the process
   fetchDataAndVisualize();
 </script>
 
